@@ -11,7 +11,7 @@ describe('API Routes', () => {
     return client.end();
   });
 
-  describe('/api/cats', () => {
+  describe('/api/me/todos', () => {
     let user;
 
     beforeAll(async () => {
@@ -30,12 +30,21 @@ describe('API Routes', () => {
       user = response.body;
     });
 
+    let todo = {
+      id: 1,
+      task: 'wash the dishes',
+      completed: false,
+      userId: 2
+    };
+
     // append the token to your requests:
     //  .set('Authorization', user.token);
     
-    it('VERB to /api/route [with context]', async () => {
-      
+    it('GET to /api/todos [with context]', async () => {
       // remove this line, here to not have lint error:
+      const todoResponse = await request
+        .post('/api/todos');
+
       user.token;
     
       // expect(response.status).toBe(200);

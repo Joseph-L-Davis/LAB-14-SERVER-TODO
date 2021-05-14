@@ -66,7 +66,7 @@ describe('API Routes', () => {
     });
 
     it('DELETE /api/todos/:id', async () => {
-      console.log(todo.id);
+      
       const response = await request
         .delete(`/api/todos/${todo.id}`)
         .set('Authorization', user.token);

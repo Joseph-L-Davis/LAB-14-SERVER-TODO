@@ -11,7 +11,7 @@ describe('API Routes', () => {
     return client.end();
   });
 
-  describe('/api/me/todos', () => {
+  describe('/api/todos', () => {
     let user;
 
     beforeAll(async () => {
@@ -31,20 +31,20 @@ describe('API Routes', () => {
     });
 
     let todo = {
-      id: expect.any(Number),
+      // id: expect.any(Number),
       task: 'wash the dishes',
       completed: false,
-      userId: 2
+      userId: 1
     };
-
     // append the token to your requests:
     //  .set('Authorization', user.token);
-    console.log(todo);
-    it('POST todo to /api/todo', async () => {
+    it('POST todo to /api/todos', async () => {
       const response = await request
-        .post('/api/todo')
+        .post('/api/todos')
         .set('Authorization', user.token)
         .send(todo);
+
+      console.log(response.text);
 
 
       expect(response.status).toBe(200);
@@ -66,7 +66,6 @@ describe('API Routes', () => {
     //   expect(todoResponse.status).toBe(200);
     //   expect(todoResponse.body).toEqual({ userId: user.id, ...todo });
       
-    //   todo = todoResponse.body;
     // });
 
     

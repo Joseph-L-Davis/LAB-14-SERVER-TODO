@@ -65,6 +65,20 @@ describe('API Routes', () => {
       expect(todoResponse.body).toEqual({ userId: user.id, ...todo });
     });
 
+    it('PUT updated todo /api/todos/:id', async () => {
+      // todo.task = 'wash the dishes';
+      todo.completed = true;
+      const response = await request 
+        .put(`/api/todos/${todo.id}`)
+        .set('Authorization', user.token)
+        .send(todo);
+        
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(todo);
+    });
+
+
     it('DELETE /api/todos/:id', async () => {
       
       const response = await request

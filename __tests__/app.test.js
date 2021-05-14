@@ -31,11 +31,12 @@ describe('API Routes', () => {
     });
 
     let todo = {
-      // id: expect.any(Number),
+      id: expect.any(Number),
       task: 'wash the dishes',
       completed: false,
       userId: 1
     };
+
     // append the token to your requests:
     //  .set('Authorization', user.token);
     it('POST todo to /api/todos', async () => {
@@ -43,8 +44,6 @@ describe('API Routes', () => {
         .post('/api/todos')
         .set('Authorization', user.token)
         .send(todo);
-
-      console.log(response.text);
 
 
       expect(response.status).toBe(200);
@@ -56,18 +55,29 @@ describe('API Routes', () => {
       todo = response.body;
     });
     
-    // it('GET to /api/todos [with context]', async () => {
-    //   // remove this line, here to not have lint error:
-    //   const todoResponse = await request
-    //     .post('/api/todos')
-    //     .set('Authorization', user.token)
-    //     .send(todo);
+    it('GET to /api/todos [with context]', async () => {
+      // remove this line, here to not have lint error:
+      const todoResponse = await request
+        .get('/api/todos')
+        .set('Authorization', user.token);
       
-    //   expect(todoResponse.status).toBe(200);
-    //   expect(todoResponse.body).toEqual({ userId: user.id, ...todo });
-      
-    // });
+      expect(todoResponse.status).toBe(200);
+      expect(todoResponse.body).toEqual({ userId: user.id, ...todo });
+    });
 
-    
+    it('DELETE /api/todos/:id', async () => {
+      console.log(todo.id);
+      const response = await request
+        .delete(`/api/todos/${todo.id}`)
+        .set('Authorization', user.token);
+        
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(todo);
+
+      const getResponse = await request.get('/api/todos')
+        .set('Authorization', user.token);
+      expect(getResponse.status).toBe(200);
+      expect(getResponse.body).toEqual(expect.not.arrayContaining([todo]));
+    });
   });
 });
